@@ -7,4 +7,7 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="classtime_icon_color">#2596B4</color>
+    <color name="studytime_icon_color">#FF9E57</color>
+    <color name="freetime_icon_color">#FF3700B3</color>
 </resources>
