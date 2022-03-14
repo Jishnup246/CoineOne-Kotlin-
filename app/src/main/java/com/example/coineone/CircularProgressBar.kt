@@ -9,7 +9,7 @@ import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
 import android.view.animation.DecelerateInterpolator
-
+//this class defines a custom circular progress bar with round edge
 class CircularProgressBar : View{
 
     private var mViewWidth = 0

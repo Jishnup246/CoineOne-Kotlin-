@@ -1,14 +1,20 @@
 package com.example.coineone
 
+
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
+import androidx.constraintlayout.widget.ConstraintLayout
+
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,6 +27,9 @@ class MainActivity : AppCompatActivity() {
     var textView_laptop_totaltime:TextView? = null
     var textView_total_time:TextView? = null
     var progressbar: ProgressBar? = null
+    var loadprogressbar :ProgressBar? = null
+
+    var loadscreenlayout :ConstraintLayout? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,9 +38,10 @@ class MainActivity : AppCompatActivity() {
         ui_init()
         fetchData()
 
+
     }
 
-
+//intialise all ui view components
     fun ui_init() {
         textView_classTime = findViewById(R.id.text_classTime)
         textView_studyTime = findViewById(R.id.text_studyTime)
@@ -42,26 +52,28 @@ class MainActivity : AppCompatActivity() {
         textView_phone_totaltime = findViewById(R.id.text_phone_time)
         textView_laptop_totaltime = findViewById(R.id.text_laptop_time)
         textView_total_time = findViewById(R.id.total_time_text)
+        loadprogressbar=findViewById(R.id.loadscreenprogress)
+        loadscreenlayout=findViewById(R.id.loadscreenlayout)
 
 
     }
 
-
+//network call to backend and fetch data and if data received then it calls methods to display data on views
     fun fetchData() {
 
         val apiInterface = Api.create().gettime_data()
         apiInterface.enqueue( object : Callback<List<ScreenTimePojo>> {
             override fun onResponse(call: Call<List<ScreenTimePojo>>?, response: Response<List<ScreenTimePojo>>?) {
+                loadprogressbar ?.visibility=View.GONE
+                loadscreenlayout ?.visibility=View.GONE
 
                 val screenTimedatabody = response!!.body()
 
                 val screenTime_data = screenTimedatabody!![0] as ScreenTimePojo
-                Log.d("networkcall", "status=success")
-                Log.d("networkcall", "chartdata calsstime="+screenTime_data .chartdata.classtime.classTime_total)
-                Log.d("networkcall", "chartdata freetime="+screenTime_data .freetimemaxusage)
-                Log.d("networkcall", "device totalmobile="+screenTime_data .deviceusage.totaltime.total_mobile)
-
-
+//                Log.d("networkcall", "status=success")
+//                Log.d("networkcall", "chartdata calsstime="+screenTime_data .chartdata.classtime.classTime_total)
+//                Log.d("networkcall", "chartdata freetime="+screenTime_data .freetimemaxusage)
+//                Log.d("networkcall", "device totalmobile="+screenTime_data .deviceusage.totaltime.total_mobile)
 
 
                 set_data_to_Ui(screenTime_data)
@@ -129,7 +141,7 @@ class MainActivity : AppCompatActivity() {
 
         textView_total_time ?.text=stringToFormatTimeString(screentimeData.chartdata.totaltime.chartData_total)
     }
-
+//this method convert minutes data to proper hour minuets format
     private fun stringToFormatTimeString(time: String): String {
 
         val formstedTime: String
